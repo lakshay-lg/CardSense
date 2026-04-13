@@ -28,7 +28,7 @@ CardSense analyzes your spending, tells you which card to use before each purcha
 
 ## Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - An [Anthropic API key](https://console.anthropic.com/)
 
 ---
@@ -115,9 +115,19 @@ Deployments are automated via `.github/workflows/azure-deploy.yml`. Every push t
 
 ### One-time setup
 
-**1. Configure the App Service**
+**1. Enable Basic Auth**
 
-In the Azure portal, set the **startup command** to:
+Azure disables this by default. Without it, the publish profile won't authenticate.
+
+**App Service → Configuration → General settings**, enable:
+- SCM Basic Auth Publishing Credentials → **On**
+- FTP Basic Auth Publishing Credentials → **On**
+
+Save.
+
+**2. Configure the App Service**
+
+In the same **General settings** tab, set the **startup command** to:
 ```
 node backend/server.js
 ```
@@ -137,9 +147,37 @@ In your GitHub repo, go to **Settings → Secrets and variables → Actions** an
 | Secret | How to get it |
 |---|---|
 | `AZURE_WEBAPP_NAME` | The name of your App Service (e.g. `cardsense`) |
-| `AZURE_WEBAPP_PUBLISH_PROFILE` | Azure portal → your App Service → **Overview** → **Download publish profile** → paste the entire file contents |
+| `AZURE_WEBAPP_PUBLISH_PROFILE` | Azure portal → your App Service → **Overview** → **Download publish profile** → select all XML content and paste it in full |
 
-Once both secrets are set, push to `main` to trigger the first deployment.
+Once both secrets are set, push to `main` to trigger the first deployment. To manually retrigger without a code change:
+
+```bash
+git commit --allow-empty -m "retrigger deployment"
+git push origin main
+```
+
+---
+
+## Troubleshooting
+
+### "No credentials found" in GitHub Actions
+- The `AZURE_WEBAPP_PUBLISH_PROFILE` secret is missing, empty, or wasn't pasted in full
+- Confirm Basic Auth is enabled in **Configuration → General settings** (see setup step 1)
+- Delete and re-add the secret, making sure to select all XML content before copying
+
+### App crashes on Azure but works locally
+- Check the startup command is set to `node backend/server.js` in **General settings**
+- Verify all environment variables are set in **App Service → Configuration → Application settings** — Azure doesn't read your local `.env` file
+- Check Node version: the app requires Node 22+ (`engines` field in `backend/package.json`)
+- Stream live logs: **App Service → Monitoring → Log stream**
+
+### Frontend loads but API calls return errors
+- API routes must be defined before the static file middleware in `server.js` — they are, but confirm `NODE_ENV=production` is set in Azure environment variables
+- If `NODE_ENV` is missing, Express won't serve the frontend and the catch-all route won't exist
+
+### Container timeout (app never starts)
+- Most likely the startup command is blank — Azure tries to guess and fails for non-standard directory structures
+- Check **Configuration → General settings → Startup Command** is set
 
 ---
 
