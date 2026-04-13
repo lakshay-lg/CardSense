@@ -1,0 +1,24 @@
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+
+# ── Build output ──────────────────────────────────────────────────────────────
+frontend/dist/
+
+# ── Environment & secrets ─────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Azure / deployment artifacts ─────────────────────────────────────────────
+*.zip
+deploy/
+.deployment
+
+# ── OS & editor noise ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ── Playwright test artifacts ────────────────────────────────────────────────
+.playwright-mcp/

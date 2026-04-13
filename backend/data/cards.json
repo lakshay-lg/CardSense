@@ -1,0 +1,98 @@
+[
+  {
+    "id": "hdfc-regalia",
+    "name": "HDFC Regalia",
+    "network": "Visa",
+    "annualFee": 2500,
+    "cashbackRates": {
+      "food_delivery": 2,
+      "travel": 5,
+      "online_shopping": 1.5,
+      "fuel": 1,
+      "groceries": 1.5,
+      "entertainment": 2,
+      "others": 1.3
+    },
+    "notes": "Best for travel — 5x reward points on airlines & hotels (effective ~5%). Premium all-rounder."
+  },
+  {
+    "id": "sbi-simplyclick",
+    "name": "SBI SimplyCLICK",
+    "network": "Visa",
+    "annualFee": 499,
+    "cashbackRates": {
+      "food_delivery": 2.5,
+      "travel": 2.5,
+      "online_shopping": 2.5,
+      "fuel": 1,
+      "groceries": 1,
+      "entertainment": 2.5,
+      "others": 1
+    },
+    "notes": "10x reward points on select partners (Amazon, BookMyShow, Cleartrip) — effective ~2.5% cashback value. Flat 1% elsewhere."
+  },
+  {
+    "id": "axis-flipkart",
+    "name": "Axis Flipkart",
+    "network": "Visa",
+    "annualFee": 500,
+    "cashbackRates": {
+      "food_delivery": 4,
+      "travel": 1.5,
+      "online_shopping": 5,
+      "fuel": 1,
+      "groceries": 4,
+      "entertainment": 4,
+      "others": 1.5
+    },
+    "notes": "5% direct cashback on Flipkart & Myntra; 4% on Swiggy, PVR, Uber; 1.5% unlimited elsewhere."
+  },
+  {
+    "id": "hdfc-moneyback-plus",
+    "name": "HDFC MoneyBack+",
+    "network": "Mastercard",
+    "annualFee": 500,
+    "cashbackRates": {
+      "food_delivery": 2,
+      "travel": 2,
+      "online_shopping": 2,
+      "fuel": 1,
+      "groceries": 2,
+      "entertainment": 2,
+      "others": 1
+    },
+    "notes": "Reliable 2% CashPoints across most categories. 2x on EMI transactions. Good entry-level card."
+  },
+  {
+    "id": "icici-amazon-pay",
+    "name": "ICICI Amazon Pay",
+    "network": "Visa",
+    "annualFee": 0,
+    "cashbackRates": {
+      "food_delivery": 2,
+      "travel": 2,
+      "online_shopping": 5,
+      "fuel": 1,
+      "groceries": 3,
+      "entertainment": 2,
+      "others": 1
+    },
+    "notes": "5% back on Amazon (Prime members); 3% on Amazon Pay merchants & grocery; 2% elsewhere. No annual fee."
+  },
+  {
+    "id": "amex-membership-rewards",
+    "name": "Amex Membership Rewards",
+    "network": "Amex",
+    "annualFee": 1500,
+    "cashbackRates": {
+      "food_delivery": 5,
+      "travel": 3,
+      "online_shopping": 2,
+      "fuel": 1,
+      "groceries": 2,
+      "entertainment": 5,
+      "others": 1
+    },
+    "notes": "5x MR points on Zomato, Swiggy, BookMyShow (~5% value). Limited merchant acceptance — verify before use."
+  }
+]

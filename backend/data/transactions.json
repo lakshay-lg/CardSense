@@ -1,0 +1,317 @@
+[
+  {
+    "id": "txn_001",
+    "date": "2026-03-15",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 850,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 17
+  },
+  {
+    "id": "txn_002",
+    "date": "2026-03-15",
+    "merchant": "Amazon",
+    "category": "online_shopping",
+    "amount": 3499,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 70
+  },
+  {
+    "id": "txn_003",
+    "date": "2026-03-16",
+    "merchant": "Zomato",
+    "category": "food_delivery",
+    "amount": 620,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 12
+  },
+  {
+    "id": "txn_004",
+    "date": "2026-03-16",
+    "merchant": "BookMyShow",
+    "category": "entertainment",
+    "amount": 1200,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 24
+  },
+  {
+    "id": "txn_005",
+    "date": "2026-03-17",
+    "merchant": "Indian Oil",
+    "category": "fuel",
+    "amount": 2500,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 25
+  },
+  {
+    "id": "txn_006",
+    "date": "2026-03-17",
+    "merchant": "Flipkart",
+    "category": "online_shopping",
+    "amount": 4200,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 84
+  },
+  {
+    "id": "txn_007",
+    "date": "2026-03-18",
+    "merchant": "MakeMyTrip",
+    "category": "travel",
+    "amount": 8500,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 170
+  },
+  {
+    "id": "txn_008",
+    "date": "2026-03-18",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 430,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 9
+  },
+  {
+    "id": "txn_009",
+    "date": "2026-03-19",
+    "merchant": "BigBasket",
+    "category": "groceries",
+    "amount": 1800,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 36
+  },
+  {
+    "id": "txn_010",
+    "date": "2026-03-19",
+    "merchant": "Amazon",
+    "category": "online_shopping",
+    "amount": 1299,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 26
+  },
+  {
+    "id": "txn_011",
+    "date": "2026-03-20",
+    "merchant": "Zomato",
+    "category": "food_delivery",
+    "amount": 750,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 15
+  },
+  {
+    "id": "txn_012",
+    "date": "2026-03-20",
+    "merchant": "IRCTC",
+    "category": "travel",
+    "amount": 2200,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 44
+  },
+  {
+    "id": "txn_013",
+    "date": "2026-03-21",
+    "merchant": "Myntra",
+    "category": "online_shopping",
+    "amount": 2800,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 56
+  },
+  {
+    "id": "txn_014",
+    "date": "2026-03-21",
+    "merchant": "HP Petrol",
+    "category": "fuel",
+    "amount": 3000,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 30
+  },
+  {
+    "id": "txn_015",
+    "date": "2026-03-22",
+    "merchant": "PVR Cinemas",
+    "category": "entertainment",
+    "amount": 900,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 18
+  },
+  {
+    "id": "txn_016",
+    "date": "2026-03-22",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 1100,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 22
+  },
+  {
+    "id": "txn_017",
+    "date": "2026-03-23",
+    "merchant": "Nykaa",
+    "category": "online_shopping",
+    "amount": 1650,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 33
+  },
+  {
+    "id": "txn_018",
+    "date": "2026-03-23",
+    "merchant": "Amazon",
+    "category": "online_shopping",
+    "amount": 5999,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 120
+  },
+  {
+    "id": "txn_019",
+    "date": "2026-03-24",
+    "merchant": "Zomato",
+    "category": "food_delivery",
+    "amount": 490,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 10
+  },
+  {
+    "id": "txn_020",
+    "date": "2026-03-24",
+    "merchant": "Ola",
+    "category": "travel",
+    "amount": 350,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 7
+  },
+  {
+    "id": "txn_021",
+    "date": "2026-03-25",
+    "merchant": "Flipkart",
+    "category": "online_shopping",
+    "amount": 7500,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 150
+  },
+  {
+    "id": "txn_022",
+    "date": "2026-03-25",
+    "merchant": "Swiggy Instamart",
+    "category": "groceries",
+    "amount": 950,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 19
+  },
+  {
+    "id": "txn_023",
+    "date": "2026-03-26",
+    "merchant": "BookMyShow",
+    "category": "entertainment",
+    "amount": 1800,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 54
+  },
+  {
+    "id": "txn_024",
+    "date": "2026-03-26",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 680,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 14
+  },
+  {
+    "id": "txn_025",
+    "date": "2026-03-27",
+    "merchant": "IndiGo Airlines",
+    "category": "travel",
+    "amount": 6200,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 124
+  },
+  {
+    "id": "txn_026",
+    "date": "2026-03-27",
+    "merchant": "Amazon",
+    "category": "online_shopping",
+    "amount": 899,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 18
+  },
+  {
+    "id": "txn_027",
+    "date": "2026-03-28",
+    "merchant": "Zomato",
+    "category": "food_delivery",
+    "amount": 920,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 18
+  },
+  {
+    "id": "txn_028",
+    "date": "2026-03-28",
+    "merchant": "Shell Petrol",
+    "category": "fuel",
+    "amount": 2000,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 40
+  },
+  {
+    "id": "txn_029",
+    "date": "2026-03-29",
+    "merchant": "Croma",
+    "category": "online_shopping",
+    "amount": 12000,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 240
+  },
+  {
+    "id": "txn_030",
+    "date": "2026-03-29",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 540,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 11
+  },
+  {
+    "id": "txn_031",
+    "date": "2026-03-30",
+    "merchant": "Uber",
+    "category": "travel",
+    "amount": 480,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 24
+  },
+  {
+    "id": "txn_032",
+    "date": "2026-03-30",
+    "merchant": "BigBasket",
+    "category": "groceries",
+    "amount": 2200,
+    "cardUsed": "HDFC Regalia",
+    "cashbackEarned": 44
+  },
+  {
+    "id": "txn_033",
+    "date": "2026-03-31",
+    "merchant": "Zomato",
+    "category": "food_delivery",
+    "amount": 1350,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 27
+  },
+  {
+    "id": "txn_034",
+    "date": "2026-03-31",
+    "merchant": "Amazon",
+    "category": "online_shopping",
+    "amount": 2100,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 42
+  },
+  {
+    "id": "txn_035",
+    "date": "2026-04-01",
+    "merchant": "Swiggy",
+    "category": "food_delivery",
+    "amount": 760,
+    "cardUsed": "HDFC MoneyBack+",
+    "cashbackEarned": 15
+  }
+]
