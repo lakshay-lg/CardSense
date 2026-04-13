@@ -111,16 +111,35 @@ When `NODE_ENV=production`, Express serves `frontend/dist` as static files and a
 
 ## Azure Deployment (App Service)
 
-1. Set the **startup command** to `node backend/server.js`.
-2. In **App Service → Configuration → Application settings**, add:
+Deployments are automated via `.github/workflows/azure-deploy.yml`. Every push to `main` builds the frontend, installs production backend dependencies, and deploys to Azure App Service.
 
-   | Name | Value |
-   |---|---|
-   | `ANTHROPIC_API_KEY` | your key |
-   | `NODE_ENV` | `production` |
-   | `PORT` | `8080` (App Service default) |
+### One-time setup
 
-3. Deploy the repo (zip deploy, GitHub Actions, etc.). The build step (`cd frontend && npm run build`) must run before or during deployment so `frontend/dist` is present.
+**1. Configure the App Service**
+
+In the Azure portal, set the **startup command** to:
+```
+node backend/server.js
+```
+
+In **App Service → Configuration → Application settings**, add:
+
+| Name | Value |
+|---|---|
+| `ANTHROPIC_API_KEY` | your key |
+| `NODE_ENV` | `production` |
+| `PORT` | `8080` (App Service default) |
+
+**2. Add GitHub secrets**
+
+In your GitHub repo, go to **Settings → Secrets and variables → Actions** and add:
+
+| Secret | How to get it |
+|---|---|
+| `AZURE_WEBAPP_NAME` | The name of your App Service (e.g. `cardsense`) |
+| `AZURE_WEBAPP_PUBLISH_PROFILE` | Azure portal → your App Service → **Overview** → **Download publish profile** → paste the entire file contents |
+
+Once both secrets are set, push to `main` to trigger the first deployment.
 
 ---
 
