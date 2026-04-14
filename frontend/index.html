@@ -4,14 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CardSense — Smart Credit Card Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #0f0f13;
-        color: #e8e8ed;
-        min-height: 100vh;
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #09090F;
+        --surface: #12121C;
+        --surface-raised: #1C1C2A;
+        --border: #1E1E2E;
+        --border-light: #2A2A3E;
+        --accent: #7C6AF7;
+        --accent-dim: rgba(124,106,247,0.12);
+        --accent-glow: rgba(124,106,247,0.25);
+        --green: #10B981;
+        --green-dim: rgba(16,185,129,0.12);
+        --red: #F43F5E;
+        --red-dim: rgba(244,63,94,0.12);
+        --amber: #F59E0B;
+        --cyan: #06B6D4;
+        --pink: #F472B6;
+        --text-primary: #EAEAF2;
+        --text-secondary: #7878A0;
+        --text-muted: #3E3E5A;
+        --font-display: 'Syne', sans-serif;
+        --font-body: 'DM Sans', sans-serif;
+        --nav-h: 52px;
       }
+      body {
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text-primary);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      input, textarea, button, select { font-family: inherit; }
+      button { cursor: pointer; }
+      ::-webkit-scrollbar { width: 4px; height: 4px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 99px; }
     </style>
   </head>
   <body>
