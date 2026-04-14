@@ -178,7 +178,7 @@ export default function Dashboard() {
       </div>
 
       {/* Body: two columns */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 16, marginBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 16 }}>
 
         {/* Left col */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -343,45 +343,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* CTA Banner */}
-      <div style={{
-        borderRadius: 14, padding: "20px 24px",
-        background: "linear-gradient(135deg, rgba(124,106,247,0.10) 0%, rgba(6,182,212,0.06) 100%)",
-        border: "1px solid rgba(124,106,247,0.2)",
-        display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{
-            width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-            background: "var(--accent-dim)", border: "1px solid var(--accent-glow)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" stroke="#7C6AF7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <div style={{ fontWeight: 600, fontSize: 14, color: "var(--text-primary)", marginBottom: 3 }}>
-              Ready to optimise your portfolio?
-            </div>
-            <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>
-              We've identified 3 new cards that fit your current spending gaps.
-            </div>
-          </div>
-        </div>
-        <button style={{
-          padding: "10px 22px", borderRadius: 10, flexShrink: 0,
-          background: "linear-gradient(135deg, #7C6AF7, #4E3FD4)",
-          border: "none", color: "#fff", fontWeight: 700, fontSize: 12,
-          letterSpacing: "0.04em", display: "flex", alignItems: "center", gap: 8,
-          boxShadow: "0 4px 16px rgba(124,106,247,0.35)",
-        }}>
-          OPTIMISE NOW
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#fff" stroke="#fff" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      </div>
     </div>
   );
 }

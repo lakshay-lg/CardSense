@@ -15,6 +15,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(staticPath));
 }
 
+// ── /api/cards ───────────────────────────────────────────────────────────────
+app.get("/api/cards", (req, res) => res.json(cards));
+
 // ── /api/recommend ──────────────────────────────────────────────────────────
 // Hero feature: "I'm about to spend ₹2000 on Zomato — which card?"
 app.post("/api/recommend", async (req, res) => {

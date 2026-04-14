@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
 
 function renderMarkdown(text) {
   return text.split("\n").map((line, i, arr) => {
@@ -69,8 +68,6 @@ export default function Chat() {
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - var(--nav-h))", overflow: "hidden" }}>
-      <Sidebar active="financial-health" />
-
       {/* Main chat */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
 

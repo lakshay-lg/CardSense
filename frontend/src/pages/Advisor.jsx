@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
 
 const POPULAR_TAGS = ["Grocery", "Travel", "Dining", "Gas", "Online Shopping"];
 
@@ -65,33 +64,6 @@ function CardVisual({ name }) {
   );
 }
 
-function EarningsBar({ label, value, color = "var(--accent)", isActive }) {
-  return (
-    <div style={{ marginBottom: 14 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-        <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>{label}</span>
-        <span style={{
-          fontSize: 13, fontWeight: 700, color,
-          fontFamily: "var(--font-display)",
-        }}>{value}</span>
-      </div>
-      <div style={{ height: 4, background: "var(--border-light)", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%", borderRadius: 99,
-          background: isActive
-            ? `linear-gradient(90deg, ${color}, ${color}88)`
-            : `linear-gradient(90deg, ${color}66, ${color}22)`,
-          width: isActive ? "80%" : "25%",
-        }} />
-      </div>
-      {isActive && (
-        <div style={{
-          marginTop: 5, fontSize: 10, color: "var(--green)", fontWeight: 600, letterSpacing: "0.06em",
-        }}>● ACTIVE PERK</div>
-      )}
-    </div>
-  );
-}
 
 export default function Advisor() {
   const [merchant, setMerchant] = useState("");
@@ -99,6 +71,7 @@ export default function Advisor() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showAltDetails, setShowAltDetails] = useState(false);
 
   async function handleSubmit(e) {
     e?.preventDefault();
@@ -116,6 +89,7 @@ export default function Advisor() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Request failed");
       setResult(json);
+      setShowAltDetails(false);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -129,20 +103,15 @@ export default function Advisor() {
     setResult(null); setError(null);
   }
 
-  const cashbackMultiplier = result ? Math.round(result.cashbackRate) : null;
-  const baseMultiplier = 1;
-  const bonusMultiplier = cashbackMultiplier ? cashbackMultiplier - baseMultiplier : null;
 
   return (
-    <div style={{ display: "flex", height: "calc(100vh - var(--nav-h))", overflow: "hidden" }}>
-      <Sidebar active="filters" />
-
-      <main style={{ flex: 1, overflowY: "auto", padding: "36px 40px" }}>
+    <div style={{ maxWidth: 900, margin: "0 auto", padding: "36px 32px" }}>
+      <main>
         {/* Heading */}
         <div style={{ maxWidth: 720, marginBottom: 28 }}>
           <h1 style={{
-            fontFamily: "var(--font-display)", fontSize: 42, fontWeight: 800,
-            lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 12,
+            fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 300,
+            lineHeight: 1.1, letterSpacing: "0.04em", marginBottom: 12,
           }}>
             Find the{" "}
             <span style={{
@@ -234,10 +203,7 @@ export default function Advisor() {
 
         {/* Result */}
         {result && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: 16 }}>
-
-            {/* Left: main recommendation */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 
               {/* Top recommendation card */}
               <div style={{
@@ -299,108 +265,81 @@ export default function Advisor() {
                 </div>
               </div>
 
-              {/* Runner up */}
-              {result.alternatives?.[0] && (
+              {/* Runner up + all alternatives */}
+              {result.alternatives?.length > 0 && (
                 <div style={{
                   background: "var(--surface)", borderRadius: 14,
-                  border: "1px solid var(--border)", padding: "16px 20px",
-                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  border: "1px solid var(--border)", overflow: "hidden",
                 }}>
-                  <div>
-                    <div style={{
-                      fontSize: 10, color: "var(--text-muted)", fontWeight: 600,
-                      letterSpacing: "0.1em", marginBottom: 5,
-                    }}>RUNNER UP</div>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{result.alternatives[0].card}</div>
-                    <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
-                      {fmt(result.alternatives[0].cashbackAmount)} rewards
+                  {/* Header row */}
+                  <div style={{
+                    padding: "14px 20px",
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                  }}>
+                    <div>
+                      <div style={{
+                        fontSize: 10, color: "var(--text-muted)", fontWeight: 600,
+                        letterSpacing: "0.1em", marginBottom: 5,
+                      }}>RUNNER UP</div>
+                      <div style={{ fontWeight: 600, fontSize: 14 }}>{result.alternatives[0].card}</div>
+                      <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
+                        {fmt(result.alternatives[0].cashbackAmount)} cashback on this transaction
+                      </div>
                     </div>
+                    <button
+                      onClick={() => setShowAltDetails((v) => !v)}
+                      style={{
+                        padding: "7px 14px", borderRadius: 8,
+                        border: "1px solid var(--border)", background: "transparent",
+                        color: "var(--text-secondary)", fontSize: 11, fontWeight: 600,
+                        letterSpacing: "0.04em", display: "flex", alignItems: "center", gap: 6,
+                      }}
+                    >
+                      {showAltDetails ? "HIDE" : "VIEW DETAILS"}
+                      <span style={{
+                        display: "inline-block",
+                        transform: showAltDetails ? "rotate(180deg)" : "rotate(0deg)",
+                        transition: "transform 0.2s",
+                      }}>▾</span>
+                    </button>
                   </div>
-                  <button style={{
-                    padding: "7px 14px", borderRadius: 8,
-                    border: "1px solid var(--border)", background: "transparent",
-                    color: "var(--text-secondary)", fontSize: 11, fontWeight: 600,
-                    letterSpacing: "0.04em",
-                  }}>VIEW DETAILS</button>
+
+                  {/* Expanded details */}
+                  {showAltDetails && (
+                    <div style={{ borderTop: "1px solid var(--border)" }}>
+                      {result.alternatives.map((alt, i) => (
+                        <div key={i} style={{
+                          padding: "14px 20px",
+                          borderBottom: i < result.alternatives.length - 1 ? "1px solid var(--border)" : "none",
+                          display: "flex", justifyContent: "space-between", alignItems: "center",
+                        }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                            <div style={{
+                              width: 36, height: 22, borderRadius: 4,
+                              background: `hsl(${(alt.card.charCodeAt(0) * 47) % 360},45%,22%)`,
+                              border: `1px solid hsl(${(alt.card.charCodeAt(0) * 47) % 360},40%,32%)`,
+                            }} />
+                            <div>
+                              <div style={{ fontSize: 13, fontWeight: 600 }}>{alt.card}</div>
+                              <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+                                {fmt(result.cashbackAmount - alt.cashbackAmount)} less than best card
+                              </div>
+                            </div>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: "var(--amber)" }}>
+                              {fmt(alt.cashbackAmount)}
+                            </div>
+                            <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>
+                              cashback
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-
-            {/* Right panel */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-
-              {/* Earnings breakdown */}
-              <div style={{
-                background: "var(--surface)", borderRadius: 14,
-                border: "1px solid var(--border)", padding: "18px",
-              }}>
-                <div style={{
-                  fontSize: 10, color: "var(--text-muted)", fontWeight: 600,
-                  letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase",
-                }}>Earnings Breakdown</div>
-                <EarningsBar label="Base Points" value={`${baseMultiplier}x`} color="var(--text-secondary)" />
-                {bonusMultiplier > 0 && (
-                  <EarningsBar label="Merchant Bonus" value={`+${bonusMultiplier}x`} color="var(--accent)" />
-                )}
-                <EarningsBar label="Cashback Value" value={fmt(result.cashbackAmount)} color="var(--green)" isActive />
-              </div>
-
-              {/* Advisor insight */}
-              <div style={{
-                background: "var(--surface)", borderRadius: 14,
-                border: "1px solid rgba(124,106,247,0.2)",
-                padding: "18px",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                  <div style={{
-                    width: 28, height: 28, borderRadius: 8,
-                    background: "var(--accent-dim)", display: "flex", alignItems: "center", justifyContent: "center",
-                  }}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="10" stroke="#7C6AF7" strokeWidth="1.5"/>
-                      <path d="M12 8v4M12 16h.01" stroke="#7C6AF7" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                  </div>
-                  <div style={{ fontSize: 11, color: "var(--accent)", fontWeight: 700, letterSpacing: "0.06em" }}>
-                    ADVISOR INSIGHT
-                  </div>
-                </div>
-                <div style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7 }}>
-                  Based on your transaction at{" "}
-                  <span style={{ color: "var(--text-primary)", fontWeight: 500 }}>{merchant}</span>,{" "}
-                  using{" "}
-                  <span style={{ color: "var(--accent)" }}>{result.bestCard}</span>{" "}
-                  maximises your rewards and captures the highest available rate for this category.
-                </div>
-                <div style={{
-                  display: "flex", gap: 8, marginTop: 14,
-                  paddingTop: 12, borderTop: "1px solid var(--border)",
-                }}>
-                  <div style={{
-                    flex: 1, padding: "8px", borderRadius: 8, background: "var(--surface-raised)",
-                    textAlign: "center",
-                  }}>
-                    <div style={{ fontSize: 10, color: "var(--text-muted)", marginBottom: 3, letterSpacing: "0.06em" }}>
-                      RATE
-                    </div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--font-display)" }}>
-                      {result.cashbackRate}%
-                    </div>
-                  </div>
-                  <div style={{
-                    flex: 1, padding: "8px", borderRadius: 8, background: "var(--surface-raised)",
-                    textAlign: "center",
-                  }}>
-                    <div style={{ fontSize: 10, color: "var(--text-muted)", marginBottom: 3, letterSpacing: "0.06em" }}>
-                      SAVINGS
-                    </div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--green)", fontFamily: "var(--font-display)" }}>
-                      {fmt(result.cashbackAmount)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         )}
 
