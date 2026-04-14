@@ -22,6 +22,11 @@ async function withTimeout(promise, ms = 30000) {
   return Promise.race([promise, timeout]);
 }
 
+const VALID_CATEGORIES = new Set([
+  "food_delivery", "travel", "online_shopping",
+  "fuel", "groceries", "entertainment", "others",
+]);
+
 // Known category keywords for fast local inference (no API call needed for common merchants)
 const CATEGORY_KEYWORDS = {
   food_delivery: ["swiggy", "zomato", "foodpanda", "dunzo", "blinkit", "zepto", "instamart"],
@@ -45,13 +50,40 @@ function inferCategory(merchant) {
 }
 
 /**
+ * Ask Claude to classify an unknown merchant into a known category.
+ * Used as fallback when keyword matching returns "others".
+ */
+async function inferCategoryWithClaude(merchant) {
+  try {
+    const response = await withTimeout(
+      client.messages.create({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 10,
+        system: `Classify the merchant into exactly one category. Reply with only the category name, nothing else.
+Valid categories: food_delivery, travel, online_shopping, fuel, groceries, entertainment, others`,
+        messages: [{ role: "user", content: `Merchant: ${merchant}` }],
+      }),
+      5000
+    );
+    const category = response.content[0].text.trim().toLowerCase();
+    return VALID_CATEGORIES.has(category) ? category : "others";
+  } catch {
+    return "others";
+  }
+}
+
+/**
  * POST /api/recommend
  * Computes best card mathematically, asks Claude only for reasoning.
  * Claude never touches the numbers — we do the math, Claude writes the sentence.
  */
 async function recommend({ merchant, amount, category, cards }) {
-  // Step 1: determine category deterministically
-  const resolvedCategory = category || inferCategory(merchant);
+  // Step 1: determine category — keyword match first, Claude fallback for unknowns
+  const localCategory = category || inferCategory(merchant);
+  const resolvedCategory =
+    localCategory === "others"
+      ? await inferCategoryWithClaude(merchant)
+      : localCategory;
 
   // Step 2: compute cashback for every card — pure arithmetic, no LLM
   const ranked = cards
