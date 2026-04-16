@@ -23,3 +23,6 @@ Thumbs.db
 
 # ── Playwright test artifacts ────────────────────────────────────────────────
 .playwright-mcp/
+
+# ── Internal planning docs (Superpowers) ─────────────────────────────────────
+docs/
