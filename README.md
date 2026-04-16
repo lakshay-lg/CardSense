@@ -23,6 +23,8 @@ CardSense analyzes your spending, tells you which card to use before each purcha
 | Frontend | React 18, Vite, React Router v6, Recharts |
 | Backend | Node.js, Express 4 |
 | AI | Anthropic Claude API (`@anthropic-ai/sdk`) |
+| Container | Docker (multi-stage build), GitHub Container Registry (GHCR) |
+| Hosting | Azure App Service (container deployment) |
 
 ---
 
@@ -109,47 +111,52 @@ When `NODE_ENV=production`, Express serves `frontend/dist` as static files and a
 
 ---
 
-## Azure Deployment (App Service)
+## Azure Deployment (App Service — Container)
 
-Deployments are automated via `.github/workflows/azure-deploy.yml`. Every push to `main` builds the frontend, installs production backend dependencies, and deploys to Azure App Service.
+Deployments are automated via `.github/workflows/deploy.yml`. Every push to `main`:
+
+1. Builds a Docker image using the multi-stage `Dockerfile` (React frontend compiled in stage 1, lean production image in stage 2)
+2. Pushes the image to GitHub Container Registry (`ghcr.io/<owner>/cardsense`)
+3. Deploys the image to Azure App Service
 
 ### One-time setup
 
-**1. Enable Basic Auth**
+**1. Create an Azure App Service for containers**
 
-Azure disables this by default. Without it, the publish profile won't authenticate.
+When creating the App Service, choose **Publish: Docker Container** (not Code). Select Linux as the OS.
 
-**App Service → Configuration → General settings**, enable:
-- SCM Basic Auth Publishing Credentials → **On**
-- FTP Basic Auth Publishing Credentials → **On**
+**2. Allow GHCR pulls from Azure**
 
-Save.
+The App Service needs to authenticate with GHCR to pull the image. In your GitHub repo, go to **Settings → Packages → cardsense** and add the Azure service principal (or use a Personal Access Token with `read:packages` scope) as a collaborator, or make the package public.
 
-**2. Configure the App Service**
+Set the registry credentials in **App Service → Configuration → Application settings**:
 
-In the same **General settings** tab, set the **startup command** to:
-```
-node backend/server.js
-```
+| Name | Value |
+|---|---|
+| `DOCKER_REGISTRY_SERVER_URL` | `https://ghcr.io` |
+| `DOCKER_REGISTRY_SERVER_USERNAME` | your GitHub username |
+| `DOCKER_REGISTRY_SERVER_PASSWORD` | a GitHub PAT with `read:packages` scope |
 
-In **App Service → Configuration → Application settings**, add:
+**3. Set app environment variables**
+
+In the same **Application settings** tab, add:
 
 | Name | Value |
 |---|---|
 | `ANTHROPIC_API_KEY` | your key |
 | `NODE_ENV` | `production` |
-| `PORT` | `8080` (App Service default) |
+| `PORT` | `3001` |
 
-**2. Add GitHub secrets**
+**4. Add GitHub secrets**
 
 In your GitHub repo, go to **Settings → Secrets and variables → Actions** and add:
 
 | Secret | How to get it |
 |---|---|
 | `AZURE_WEBAPP_NAME` | The name of your App Service (e.g. `cardsense`) |
-| `AZURE_WEBAPP_PUBLISH_PROFILE` | Azure portal → your App Service → **Overview** → **Download publish profile** → select all XML content and paste it in full |
+| `AZURE_CREDENTIALS` | A service principal JSON — run `az ad sp create-for-rbac --name cardsense-deploy --role contributor --scopes /subscriptions/<id>/resourceGroups/<rg> --sdk-auth` and paste the output |
 
-Once both secrets are set, push to `main` to trigger the first deployment. To manually retrigger without a code change:
+Once all secrets are set, push to `main` to trigger the first deployment. To manually retrigger without a code change:
 
 ```bash
 git commit --allow-empty -m "retrigger deployment"
@@ -160,24 +167,27 @@ git push origin main
 
 ## Troubleshooting
 
-### "No credentials found" in GitHub Actions
-- The `AZURE_WEBAPP_PUBLISH_PROFILE` secret is missing, empty, or wasn't pasted in full
-- Confirm Basic Auth is enabled in **Configuration → General settings** (see setup step 1)
-- Delete and re-add the secret, making sure to select all XML content before copying
+### Image pull fails — App Service can't start the container
+- Check `DOCKER_REGISTRY_SERVER_URL/USERNAME/PASSWORD` are set correctly in **Application settings**
+- Make sure the GitHub PAT has `read:packages` scope and hasn't expired
+- If the GHCR package is private, confirm the PAT owner has access to the package
+
+### `AZURE_CREDENTIALS` secret rejected in GitHub Actions
+- The service principal JSON must be the full output of `az ad sp create-for-rbac --sdk-auth`
+- Confirm the SP has `Contributor` role on the App Service resource group
+- Re-run `az ad sp create-for-rbac` and replace the secret if it has expired
 
 ### App crashes on Azure but works locally
-- Check the startup command is set to `node backend/server.js` in **General settings**
 - Verify all environment variables are set in **App Service → Configuration → Application settings** — Azure doesn't read your local `.env` file
-- Check Node version: the app requires Node 22+ (`engines` field in `backend/package.json`)
 - Stream live logs: **App Service → Monitoring → Log stream**
+- Run the image locally to reproduce: `docker run -p 3001:3001 -e ANTHROPIC_API_KEY=sk-ant-... ghcr.io/<owner>/cardsense:latest`
 
 ### Frontend loads but API calls return errors
-- API routes must be defined before the static file middleware in `server.js` — they are, but confirm `NODE_ENV=production` is set in Azure environment variables
-- If `NODE_ENV` is missing, Express won't serve the frontend and the catch-all route won't exist
+- Confirm `NODE_ENV=production` is set in Azure environment variables — without it Express won't serve the frontend or the catch-all route
+- Confirm `PORT=3001` matches the `EXPOSE` value in the Dockerfile; Azure routes external traffic to whatever port is set here
 
-### Container timeout (app never starts)
-- Most likely the startup command is blank — Azure tries to guess and fails for non-standard directory structures
-- Check **Configuration → General settings → Startup Command** is set
+### Container starts but immediately exits
+- Check the Log stream for the actual error — most common causes are a missing `ANTHROPIC_API_KEY` or a wrong `PORT`
 
 ---
 
